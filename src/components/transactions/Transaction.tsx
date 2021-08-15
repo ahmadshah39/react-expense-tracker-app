@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import {
   Transaction as TransactionProps,
   GlobalContext,
@@ -7,31 +7,19 @@ import {
 const Transaction: React.FC<{ transaction: TransactionProps }> = ({
   transaction: { id, text, amount },
 }) => {
-  const [mounting, setmounting] = useState<boolean>(true);
-  useEffect(() => {
-    setmounting(true);
-
-    console.log("mount");
-    return () => {
-      // setmounting(false);
-      console.log("unmount");
-    };
-  }, []);
+ 
   const globalContext = useContext(GlobalContext);
   const { deleteTransaciton } = globalContext;
   const onDelete: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
-    setmounting(false);
-    setTimeout(() => {
       deleteTransaciton(id);
-    }, 0.05);
   };
   const sign: string = amount < 0 ? "-" : "+";
   return (
     <li
       className={`bg-white  group relative shadow-lg text-gray-700 flex justify-between break-words items-center p-2 mx-2 text-lg font-bold border-r-4 ${
         amount < 0 ? "border-red-600" : "border-green-600"
-      } ${mounting === true ? "item-enter-active" : "item-exit-active"}`}
+      }`}
     >
       {text}{" "}
       <span className="break-all ml-3">
